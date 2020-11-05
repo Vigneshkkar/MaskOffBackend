@@ -1,0 +1,41 @@
+@base=http://localhost:8080/api
+
+GET {{base}}/user HTTP/1.1
+
+###
+
+POST {{base}}/user/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "userEmail" : "vigneshkkar@gmail.com",
+    "password" : "Vaidhehi"
+}
+
+###
+
+POST {{base}}/user/validate HTTP/1.1
+Content-Type: application/json
+
+{
+    "userEmail" : "vigneshkkar@gmail.com",
+    "password" : "SaiRam"
+}
+
+###
+POST {{base}}/user/resetPassword HTTP/1.1
+Content-Type: application/json
+
+{
+    "userEmail" : "vigneshkkar@gmail.com"
+}
+
+###
+POST {{base}}/user/changePassword HTTP/1.1
+Content-Type: application/json
+
+{
+    "userEmail" : "vigneshkkar@gmail.com",
+    "newPassword" : "SaiRam",
+    "passcode" : "536963"
+}

@@ -1,0 +1,23 @@
+@base=http://localhost:8080/api
+
+
+POST {{base}}/Categories/addMaskCategories HTTP/1.1
+Content-Type: application/json
+
+{
+    "mainCat" : "Hybrid",
+    "image" : "empty"
+}
+
+###
+POST {{base}}/Categories/addMaskSubCategories HTTP/1.1
+Content-Type: application/json
+
+{
+    "mainCat" : "xcbdf",
+    "subCat" : ["test2"]
+}
+
+###
+
+GET {{base}}/Categories  HTTP/1.1
