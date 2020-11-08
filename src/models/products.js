@@ -1,33 +1,33 @@
 const mongoose = require('mongoose');
 
 const productSchema = mongoose.Schema({
-  name: {
+  Name: {
     type: String,
     required: true,
     unique: true,
   },
-  mainCat: {
+  MainCat: {
     type: String,
     required: true,
   },
-  subCat: {
+  SubCat: {
     type: String,
   },
-  image: {
+  img: {
     type: String,
     required: true,
   },
-  price: {
+  Price: {
     type: Number,
     required: true,
   },
-  desc: {
+  Desc: {
     type: String,
   },
   lastChange: {
     type: Date,
   },
-  available: {
+  onStock: {
     type: Boolean,
     required: true,
   },
@@ -37,7 +37,7 @@ const Prod = (module.exports = mongoose.model('Products', productSchema));
 
 //add cats
 module.exports.addProducts = (product, callback) => {
-  const query = { name: product.name };
+  const query = { Name: product.Name };
   const prods = { ...product, lastChange: new Date() };
   Prod.findOneAndUpdate(query, prods, { upsert: true }, callback);
 };
@@ -46,7 +46,7 @@ module.exports.addProducts = (product, callback) => {
 module.exports.getAllProducts = (getAvailable, callback) => {
   let query = {};
   if (getAvailable) {
-    query = { available: true };
+    query = { onStock: true };
   }
   Prod.find(query, '-_id -lastChange -__v', callback);
 };
@@ -55,16 +55,16 @@ module.exports.getAllProducts = (getAvailable, callback) => {
 module.exports.getPriceRange = (getAvailable, callback) => {
   let query = {};
   if (getAvailable) {
-    query = { available: true };
+    query = { onStock: true };
   }
-  const max = Prod.find(query).sort('-price').limit(1).exec();
-  const min = Prod.find(query).sort('price').limit(1).exec();
+  const max = Prod.find(query).sort('-Price').limit(1).exec();
+  const min = Prod.find(query).sort('Price').limit(1).exec();
   let initail = {};
 
   Promise.all([min, max])
     .then((value) => {
-      initail.min = value[0][0].price;
-      initail.max = value[1][0].price;
+      initail.min = value[0][0].Price;
+      initail.max = value[1][0].Price;
     })
     .catch((err) => {
       initail = { min: 0, max: 1000 };

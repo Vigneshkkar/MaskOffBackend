@@ -7,10 +7,10 @@ ProdRouter.post('/addUpdateProducts416', (req, res) => {
   Products.addProducts(req.body, (err, status) => {
     if (err) {
       if (err.code === 11000)
-        res.status(403).json(createMsg('Categories is not unique'));
-      else res.status(500).json(createMsg('Error while adding Categories.'));
+        res.status(403).json(createMsg('Product is not unique'));
+      else res.status(500).json(createMsg('Error while adding Product.'));
     } else {
-      res.json(createMsg('Added Successful'));
+      res.json(createMsg('Product Added Successful'));
     }
   });
 });

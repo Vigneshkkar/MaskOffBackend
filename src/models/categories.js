@@ -8,7 +8,7 @@ const categorySchema = mongoose.Schema({
   },
   subCat: {
     type: Array,
-    unique: true,
+    // unique: true,
   },
 
   image: {
