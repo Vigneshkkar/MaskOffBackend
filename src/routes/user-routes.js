@@ -1,5 +1,6 @@
 const UserRouter = require('express').Router();
 const { createMsg } = require('../util/helper');
+const { transporter } = require('../util/nodeMailer');
 
 const Users = require('../models/user');
 const e = require('express');
@@ -28,8 +29,28 @@ UserRouter.post('/validate', (req, res) => {
 
 UserRouter.post('/resetPassword', (req, res) => {
   Users.resetPassword(req.body.userEmail, (err, suc) => {
+    let mail = {
+      from: process.env.THE_EMAIL,
+      to: req.body.userEmail,
+      subject: 'Maskoff416 - OTP',
+      text: null,
+    };
+
     if (err) res.status(403).json(createMsg('email not found'));
-    else res.json(createMsg('mail sent'));
+    else {
+      mail.html = `<html>
+      <body>
+      ${suc}
+      </body>
+      </html>`;
+      transporter.sendMail(mail, (err, data) => {
+        if (err) {
+          res.status(500).json(err);
+        } else {
+          res.json(data);
+        }
+      });
+    }
   });
 });
 
