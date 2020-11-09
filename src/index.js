@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
+const morgan = require('morgan');
 const port = 8080;
 const bodyParser = require('body-parser');
 
@@ -18,6 +20,7 @@ app.use(function (req, res, next) {
   next();
 });
 
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use('/api', routes);
 
