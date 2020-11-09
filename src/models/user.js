@@ -66,7 +66,7 @@ module.exports.resetPassword = (userMail, callback) => {
   const randomPass = Math.floor(100000 + Math.random() * 900000);
   Users.findOneAndUpdate(query, { resetCode: randomPass }, (err, success) => {
     if (!success) callback('email not found');
-    else callback(null, 'Your OTP is ' + success.resetCode);
+    else callback(null, success.resetCode);
   });
 };
 

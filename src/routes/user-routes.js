@@ -4,6 +4,7 @@ const { transporter } = require('../util/nodeMailer');
 
 const Users = require('../models/user');
 const e = require('express');
+const path = require('path');
 
 UserRouter.post('/register', (req, res) => {
   Users.addUser(req.body, (err, status) => {
@@ -30,26 +31,27 @@ UserRouter.post('/validate', (req, res) => {
 UserRouter.post('/resetPassword', (req, res) => {
   Users.resetPassword(req.body.userEmail, (err, suc) => {
     let mail = {
-      from: process.env.THE_EMAIL,
-      to: req.body.userEmail,
-      subject: 'Maskoff416 - OTP',
-      text: null,
+      // from: process.env.THE_EMAIL,
+      message: {
+        to: req.body.userEmail,
+      },
+      locals: {
+        OTP: suc,
+      },
+
+      template: path.join(__dirname, '../emails', 'OTP'),
     };
 
     if (err) res.status(403).json(createMsg('email not found'));
     else {
-      mail.html = `<html>
-      <body>
-      ${suc}
-      </body>
-      </html>`;
-      transporter.sendMail(mail, (err, data) => {
-        if (err) {
-          res.status(500).json(err);
-        } else {
+      transporter
+        .send(mail)
+        .then((data) => {
           res.json(data);
-        }
-      });
+        })
+        .catch((err) => {
+          res.status(500).json(err);
+        });
     }
   });
 });
