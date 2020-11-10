@@ -7,6 +7,7 @@ const e = require('express');
 const path = require('path');
 
 UserRouter.post('/register', (req, res) => {
+  req.body.data = Buffer.from(req.body.data, 'base64').toString();
   Users.addUser(req.body, (err, status) => {
     if (err) {
       if (err.code === 11000)
@@ -19,13 +20,17 @@ UserRouter.post('/register', (req, res) => {
 });
 
 UserRouter.post('/validate', (req, res) => {
-  Users.validateUser(req.body.userEmail, req.body.password, (err, status) => {
-    if (err) {
-      res.status(403).json(err);
-    } else {
-      res.json(createMsg('Login Successful'));
+  Users.validateUser(
+    req.body.userEmail,
+    Buffer.from(req.body.data, 'base64').toString(),
+    (err, status) => {
+      if (err) {
+        res.status(403).json(err);
+      } else {
+        res.json(createMsg('Login Successful'));
+      }
     }
-  });
+  );
 });
 
 UserRouter.post('/resetPassword', (req, res) => {
@@ -59,7 +64,7 @@ UserRouter.post('/resetPassword', (req, res) => {
 UserRouter.post('/changePassword', (req, res) => {
   Users.changePassword(
     req.body.userEmail,
-    req.body.newPassword,
+    Buffer.from(req.body.newdata, 'base64').toString(),
     req.body.passcode,
     (err, suc) => {
       if (err) res.status(403).json(createMsg('Cannot Change password.'));
