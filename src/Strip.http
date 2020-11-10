@@ -1,0 +1,9 @@
+@base=http://localhost:8080/api
+
+
+POST {{base}}/Checkout/create-checkout-session HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": "Test Working Fine."
+}
