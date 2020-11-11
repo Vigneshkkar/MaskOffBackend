@@ -49,7 +49,11 @@ const Users = (module.exports = mongoose.model('Users', userSchema));
 
 //add user
 module.exports.addUser = (user, callback) => {
-  Users.create(user, callback);
+  const data = {
+    userEmail: user.userEmail,
+    password: user.data,
+  };
+  Users.create(data, callback);
 };
 
 //validate user
