@@ -73,3 +73,8 @@ module.exports.getPriceRange = (getAvailable, callback) => {
       callback(null, initail);
     });
 };
+
+module.exports.deleteProduct = (name, callback) => {
+  const query = { Name: name };
+  Prod.findOneAndDelete(query, callback);
+};

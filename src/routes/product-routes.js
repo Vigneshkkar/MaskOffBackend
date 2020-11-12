@@ -40,4 +40,11 @@ ProdRouter.get('/priceRange', (req, res) => {
   });
 });
 
+ProdRouter.post('/Vicky/Delete/ProductSecret', (req, res) => {
+  Products.deleteProduct(req.body.name, (err, data) => {
+    if (err) res.status(500).json('Cannot Delete Data');
+    else res.json(data);
+  });
+});
+
 module.exports = ProdRouter;

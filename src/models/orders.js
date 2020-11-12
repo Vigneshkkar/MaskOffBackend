@@ -50,7 +50,7 @@ module.exports.createOrder = (details, callback) => {
   Orders.create(data, callback);
 };
 
-module.exports.addMaskSubCat = (mainCat, subCat, callback) => {
+module.exports.getAllOrder = (mainCat, subCat, callback) => {
   const query = { mainCat: mainCat };
 
   Cats.findOneAndUpdate(
@@ -63,6 +63,6 @@ module.exports.addMaskSubCat = (mainCat, subCat, callback) => {
   );
 };
 
-module.exports.getAllCats = (callback) => {
-  Cats.find({}, '-_id -lastChange -__v', callback);
+module.exports.getAllOrder = (callback) => {
+  Orders.find({}, '-_id -lastChange -__v', callback);
 };

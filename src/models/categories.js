@@ -24,7 +24,8 @@ const Cats = (module.exports = mongoose.model('Categories', categorySchema));
 //add cats
 module.exports.addMaskCats = (cat, callback) => {
   const cats = { ...cat, lastChange: new Date() };
-  Cats.create(cats, callback);
+  const query = { mainCat: cat.mainCat };
+  Cats.findOneAndUpdate(query, cats, { upsert: true }, callback);
 };
 
 module.exports.addMaskSubCat = (mainCat, subCat, callback) => {
@@ -41,5 +42,23 @@ module.exports.addMaskSubCat = (mainCat, subCat, callback) => {
 };
 
 module.exports.getAllCats = (callback) => {
-  Cats.find({}, '-_id -lastChange -__v', callback);
+  Cats.find(
+    {},
+    '-_id -lastChange -__v',
+    {
+      sort: {
+        mainCat: 1,
+      },
+    },
+    callback
+  );
+};
+
+module.exports.deleteCat = (mainCat, callback) => {
+  const query = { mainCat: mainCat };
+
+  Cats.findOneAndDelete(query, (err, success) => {
+    if ((err, !success)) callback('cannot delete');
+    else callback(null, 'Deleted Successfully');
+  });
 };
