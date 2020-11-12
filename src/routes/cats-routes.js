@@ -33,4 +33,11 @@ CatRouter.get('/', (req, res) => {
   });
 });
 
+CatRouter.post('/Vicky/Delete', (req, res) => {
+  Categories.deleteCat(req.body.mainCat, (err, data) => {
+    if (err) res.status(500).json('Cannot Delete Data');
+    else res.json(data);
+  });
+});
+
 module.exports = CatRouter;

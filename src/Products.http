@@ -1,6 +1,24 @@
-@base=https://vigneshkkar.in/api
+@base=http://localhost:8080/api
 
 
+
+
+###
+GET {{base}}/Products HTTP/1.1
+
+###
+GET {{base}}/Products/priceRange HTTP/1.1
+
+###
+POST {{base}}/Products/Vicky/Delete/ProductSecret HTTP/1.1
+Content-Type: application/json
+
+{
+    "name" : "Vignesh"
+} 
+
+
+###
 POST {{base}}/Products/addUpdateProducts416 HTTP/1.1
 Content-Type: application/json
 
@@ -13,8 +31,4 @@ Content-Type: application/json
     "onStock": true
 }
 
-###
-GET {{base}}/Products HTTP/1.1
 
-###
-GET {{base}}/Products/priceRange HTTP/1.1
