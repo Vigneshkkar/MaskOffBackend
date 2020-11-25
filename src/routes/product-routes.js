@@ -27,7 +27,11 @@ ProdRouter.post('/addMaskSubCategories', (req, res) => {
 });
 
 ProdRouter.get('/', (req, res) => {
-  Products.getAllProducts(true, (err, data) => {
+  let flag = true;
+  if (req.query.getAll == 'true') {
+    flag = false;
+  }
+  Products.getAllProducts(flag, (err, data) => {
     if (err) res.status(500).json('Cannot Fetch Data');
     else res.json(data);
   });

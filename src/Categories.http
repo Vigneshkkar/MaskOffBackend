@@ -1,4 +1,6 @@
 @base=http://localhost:8080/api
+# @base=https://vigneshkkar.in/api
+
 
 
 POST {{base}}/Categories/addMaskCategories HTTP/1.1
@@ -60,5 +62,5 @@ POST {{base}}/Categories/Vicky/Delete HTTP/1.1
 Content-Type: application/json
 
 {
-    "mainCat" : "Edibles"
+    "mainCat" : "Dry Flowers"
 }

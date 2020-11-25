@@ -1,0 +1,7 @@
+@base=http://localhost:8080/api
+
+
+GET {{base}}/Orders/getAllOrders/Vignesh/Secret HTTP/1.1
+###
+GET {{base}}/Orders/getAllOrders/Vignesh/getRevenue HTTP/1.1
+

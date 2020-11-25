@@ -40,29 +40,45 @@ const orderSchema = mongoose.Schema({
   lastChange: {
     type: Date,
   },
+  delivered: {
+    type: Boolean,
+  },
 });
 
 const Orders = (module.exports = mongoose.model('Orders', orderSchema));
 
-//add cats
+//add orders
 module.exports.createOrder = (details, callback) => {
-  const data = { ...details, lastChange: new Date() };
+  const data = { ...details, lastChange: new Date(), delivered: false };
   Orders.create(data, callback);
 };
 
-module.exports.getAllOrder = (mainCat, subCat, callback) => {
-  const query = { mainCat: mainCat };
-
-  Cats.findOneAndUpdate(
-    query,
-    { $addToSet: { subCat: { $each: subCat } } },
-    (err, success) => {
-      if ((err, !success)) callback('cannot insert');
-      else callback(null, 'Inserted Successfully');
-    }
-  );
+module.exports.getAllOrder = (getDelivered, callback) => {
+  let query = {};
+  if (!getDelivered) {
+    query = { delivered: false };
+  }
+  Orders.find(query, '-__v', { sort: { lastChange: -1 } }, callback);
 };
 
-module.exports.getAllOrder = (callback) => {
-  Orders.find({}, '-_id -lastChange -__v', callback);
+module.exports.updateDelivery = (id, status, callback) => {
+  const query = { _id: id };
+  Orders.findOneAndUpdate(query, { delivered: status }, callback);
+};
+
+module.exports.totalRevenue = (callback) => {
+  // const data = { ...details, lastChange: new Date(), delivered: false };
+  Orders.aggregate(
+    [
+      {
+        $group: {
+          _id: '$id',
+          total: {
+            $sum: '$totalValue',
+          },
+        },
+      },
+    ],
+    callback
+  );
 };
