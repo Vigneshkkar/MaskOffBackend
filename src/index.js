@@ -1,9 +1,9 @@
 const express = require('express');
-const app = express();
 require('dotenv').config();
 const morgan = require('morgan');
 const port = 8080;
 const bodyParser = require('body-parser');
+const app = express();
 
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/maskoff', {
@@ -21,7 +21,9 @@ app.use(function (req, res, next) {
 });
 
 app.use(morgan('dev'));
-app.use(bodyParser.json());
+
+app.use(bodyParser.json({ limit: '5mb' }));
+app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 app.use('/api', routes);
 
 app.listen(port, () => {
