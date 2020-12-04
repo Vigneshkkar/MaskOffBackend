@@ -35,7 +35,12 @@ const orderSchema = mongoose.Schema({
   },
   paymentId: {
     type: String,
-    required: true,
+  },
+  paymentMethod: {
+    type: String,
+  },
+  paymentDone: {
+    type: Boolean,
   },
   lastChange: {
     type: Date,
@@ -61,9 +66,13 @@ module.exports.getAllOrder = (getDelivered, callback) => {
   Orders.find(query, '-__v', { sort: { lastChange: -1 } }, callback);
 };
 
-module.exports.updateDelivery = (id, status, callback) => {
+module.exports.updateDelivery = (id, status, paymentMet, callback) => {
   const query = { _id: id };
-  Orders.findOneAndUpdate(query, { delivered: status }, callback);
+  let update = { delivered: status };
+  if (paymentMet) {
+    update = { paymentDone: status };
+  }
+  Orders.findOneAndUpdate(query, update, { returnOriginal: false }, callback);
 };
 
 module.exports.totalRevenue = (callback) => {
@@ -81,4 +90,13 @@ module.exports.totalRevenue = (callback) => {
     ],
     callback
   );
+};
+
+module.exports.actionItems = (callback) => {
+  const quer = {
+    paymentMethod: 'interac',
+    paymentDone: { $ne: true },
+  };
+
+  Orders.count(quer, callback);
 };

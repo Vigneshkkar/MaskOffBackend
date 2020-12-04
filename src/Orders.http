@@ -5,3 +5,5 @@ GET {{base}}/Orders/getAllOrders/Vignesh/Secret HTTP/1.1
 ###
 GET {{base}}/Orders/getAllOrders/Vignesh/getRevenue HTTP/1.1
 
+###
+GET {{base}}/Orders/getAllOrders/Vignesh/getActions HTTP/1.1

@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css?family=Baloo+Thambi+2');
+
+body {
+  font-family: 'Baloo Thambi 2', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  /* background-color: #152a38; */
+  color: #152a38;
+}
+p {
+  font-size: 25px;
+}
+div {
+  width: 100%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  flex-direction: column;
+}
+img {
+  width: 20rem;
+  position: absolute;
+  float: left;
+  clear: both;
+}
